@@ -4,6 +4,8 @@ var Ball = function(canvas) {
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 10;
+  this.maxAcceleration = 0.9;
+  this.tiltLimit = 13;
   this.slowingFactor = 40;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
@@ -11,8 +13,19 @@ var Ball = function(canvas) {
   window.addEventListener('deviceorientation', function(event) {
     self.tiltDebug['x'] = event.gamma;
     self.tiltDebug['y'] = event.beta;
-    self.acceleration.x = self.tiltDebug['x'] / self.slowingFactor;
-    self.acceleration.y = self.tiltDebug['y'] / self.slowingFactor;
+    
+    if(Math.abs(event.gamma) > self.tiltLimit) {
+      self.acceleration.x = (event.gamma < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
+    } else {
+      self.acceleration.x = event.gamma / self.slowingFactor;
+    }
+
+    if(Math.abs(event.beta) > self.tiltLimit) {
+      self.acceleration.x = (event.beta < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
+    } else {
+      self.acceleration.x = event.beta / self.slowingFactor;
+    }
+    
   }, false);
 };
 

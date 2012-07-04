@@ -1,18 +1,15 @@
 var Ball = function() {
-  this.radius = 2.5;
+  this.radius = 5;
   this.position = new Vector(100, 100);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 4;
-  this.orientation = { 'alpha': 0, 'beta': 0, 'gamma': 0 };
+  this.slowingFactor = 0.5;
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
-    self.orientation['alpha'] = Math.round(event.alpha);
-    self.orientation['beta'] = Math.round(event.beta);
-    self.orientation['gamma'] = Math.round(event.gamma);
-    self.acceleration.x = Math.round(event.gamma) / 100;
-    self.acceleration.y = Math.round(event.beta) / 100;
+    self.acceleration.x = Math.round(event.gamma) * this.slowingFactor;
+    self.acceleration.y = Math.round(event.beta) * this.slowingFactor;
   }, false);
 };
 
@@ -25,8 +22,8 @@ Ball.prototype.update = function() {
     this.velocity.idiv(speed / this.speedLimit);
   }
   this.position.iadd(this.velocity);
-  this.acceleration.zero();
   this.debug();
+  this.acceleration.zero();
 };
 
 Ball.prototype.draw = function(ctx) {
@@ -39,7 +36,6 @@ Ball.prototype.draw = function(ctx) {
 };
 
 Ball.prototype.debug = function() {
-  $('#debug').html('Alpha: ' + this.orientation['alpha'] + '<br>\
-    Beta: ' + this.orientation['beta'] + '<br>\
-    Gamma: ' + this.orientation['gamma']);
+  $('#debug').html('Acceleration vector: (' + this.acceleration.x + ', ' + this.acceleration.y + ')<br/>\
+    Velocity vector: (' + this.velocity.x + ', ' + this.velocity.y + ')');
 };

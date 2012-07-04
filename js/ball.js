@@ -21,11 +21,11 @@ var Ball = function(canvas) {
     }
 
     if(Math.abs(event.beta) > self.tiltLimit) {
-      self.acceleration.x = (event.beta < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
+      self.acceleration.y = (event.beta < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
     } else {
-      self.acceleration.x = event.beta / self.slowingFactor;
+      self.acceleration.y = event.beta / self.slowingFactor;
     }
-    
+
   }, false);
 };
 

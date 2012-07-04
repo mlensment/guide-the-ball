@@ -9,10 +9,10 @@ var Ball = function(canvas) {
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
-    this.tiltDebug['x'] = event.gamma;
-    this.tiltDebug['y'] = event.beta;
-    self.acceleration.x = event.gamma / self.slowingFactor;
-    self.acceleration.y = event.beta / self.slowingFactor;
+    self.tiltDebug['x'] = event.gamma;
+    self.tiltDebug['y'] = event.beta;
+    self.acceleration.x = self.tiltDebug['x'] / self.slowingFactor;
+    self.acceleration.y = self.tiltDebug['y'] / self.slowingFactor;
   }, false);
 };
 

@@ -18,9 +18,9 @@ Ball.prototype.update = function() {
   this.acceleration.validate();
   this.velocity.iadd(this.acceleration);
 
-  speed = this.velocity.length();
-  if(speed > speed_limit){
-    this.velocity.idiv(speed / speed_limit);
+  var speed = this.velocity.length();
+  if(var speed > this.speedLimit){
+    this.velocity.idiv(speed / this.speedLimit);
   }
   this.position.iadd(this.velocity);
   this.acceleration.zero();

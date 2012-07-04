@@ -5,7 +5,7 @@ $(document).ready(function() {
 var Game = function() {
   this.ball = new Ball();
   var self = this;
-  this.running = setInterval(function(){self.tick()}, 200);
+  this.running = setInterval(function(){self.tick()}, 2000);
 };
 
 Game.prototype.tick = function() {

@@ -4,7 +4,7 @@ var Ball = function(canvas) {
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 4;
-  this.slowingFactor = 0.5;
+  this.slowingFactor = 0.3;
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
@@ -37,5 +37,5 @@ Ball.prototype.draw = function(ctx) {
 
 Ball.prototype.debug = function() {
   $('#debug').html('Acceleration vector: (' + this.acceleration.x + ', ' + this.acceleration.y + ')<br/>\
-    Velocity vector: (' + this.velocity.x + ', ' + this.velocity.y + ')');
+    Velocity vector: (' + Math.round(this.velocity.x) + ', ' + Math.round(this.velocity.y) + ')');
 };

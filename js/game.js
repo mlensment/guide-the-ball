@@ -7,7 +7,7 @@ var Game = function() {
   this.ctx = this.canvas.getContext('2d');
   this.ball = new Ball(this.canvas);
   var self = this;
-  this.running = setInterval(function(){self.tick()}, 50);
+  this.running = setInterval(function(){self.tick()}, 100);
 };
 
 Game.prototype.tick = function() {

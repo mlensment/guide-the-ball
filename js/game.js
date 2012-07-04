@@ -20,15 +20,9 @@ Game.prototype.update = function() {
 };
 
 Game.prototype.draw = function() {
-
   this.ctx.globalCompositeOperation = 'source-in';
-  this.ctx.fillStyle = 'rgba(0,0,0, 0.5)';
+  this.ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
   this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-
   this.ctx.globalCompositeOperation = 'lighter';
-  this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-
-  //this.canvas.width = this.canvas.width;
   this.ball.draw(this.ctx);
 };

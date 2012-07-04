@@ -4,7 +4,7 @@ var Ball = function(canvas) {
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 10;
-  this.slowingFactor = 70;
+  this.slowingFactor = 50;
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {

@@ -1,6 +1,6 @@
-var Ball = function() {
+var Ball = function(canvas) {
   this.radius = 5;
-  this.position = new Vector(100, 100);
+  this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 4;
@@ -8,8 +8,8 @@ var Ball = function() {
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
-    self.acceleration.x = Math.round(event.gamma) * this.slowingFactor;
-    self.acceleration.y = Math.round(event.beta) * this.slowingFactor;
+    self.acceleration.x = Math.round(event.gamma) * self.slowingFactor;
+    self.acceleration.y = Math.round(event.beta) * self.slowingFactor;
   }, false);
 };
 

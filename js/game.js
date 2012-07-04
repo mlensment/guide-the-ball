@@ -5,7 +5,7 @@ $(document).ready(function() {
 var Game = function() {
   this.canvas = document.getElementById('guide-the-ball');
   this.ctx = this.canvas.getContext('2d');
-  this.ball = new Ball();
+  this.ball = new Ball(this.canvas);
   var self = this;
   this.running = setInterval(function(){self.tick()}, 50);
 };

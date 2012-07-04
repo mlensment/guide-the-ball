@@ -3,13 +3,13 @@ var Ball = function(canvas) {
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
-  this.speedLimit = 4;
-  this.slowingFactor = 0.3;
+  this.speedLimit = 10;
+  this.slowingFactor = 70;
 
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
-    self.acceleration.x = Math.round(event.gamma) * self.slowingFactor;
-    self.acceleration.y = Math.round(event.beta) * self.slowingFactor;
+    self.acceleration.x = event.gamma / self.slowingFactor;
+    self.acceleration.y = event.beta / self.slowingFactor;
   }, false);
 };
 
@@ -36,6 +36,6 @@ Ball.prototype.draw = function(ctx) {
 };
 
 Ball.prototype.debug = function() {
-  $('#debug').html('Acceleration vector: (' + this.acceleration.x + ', ' + this.acceleration.y + ')<br/>\
+  $('#debug').html('Acceleration vector: (' + Math.round(this.acceleration.x) + ', ' + Math.round(this.acceleration.y) + ')<br/>\
     Velocity vector: (' + Math.round(this.velocity.x) + ', ' + Math.round(this.velocity.y) + ')');
 };

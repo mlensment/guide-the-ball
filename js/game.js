@@ -1,8 +1,10 @@
 $(document).ready(function() {
-  var game = new Game();
+  game = new Game();
 });
 
 var Game = function() {
+  this.canvas = document.getElementById('guide-the-ball');
+  this.ctx = this.canvas.getContext('2d');
   this.ball = new Ball();
   var self = this;
   this.running = setInterval(function(){self.tick()}, 50);
@@ -18,5 +20,6 @@ Game.prototype.update = function() {
 };
 
 Game.prototype.draw = function() {
-  this.ball.draw();
+  this.canvas.width = this.canvas.width;
+  this.ball.draw(this.ctx);
 };

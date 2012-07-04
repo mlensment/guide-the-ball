@@ -11,6 +11,8 @@ var Ball = function() {
     self.orientation['alpha'] = Math.round(event.alpha);
     self.orientation['beta'] = Math.round(event.beta);
     self.orientation['gamma'] = Math.round(event.gamma);
+    self.acceleration.x = Math.round(event.beta) / 100;
+    self.acceleration.y = Math.round(event.gamma) / 100;
   }, false);
 };
 
@@ -19,7 +21,7 @@ Ball.prototype.update = function() {
   this.velocity.iadd(this.acceleration);
 
   var speed = this.velocity.length();
-  if(var speed > this.speedLimit){
+  if(speed > this.speedLimit) {
     this.velocity.idiv(speed / this.speedLimit);
   }
   this.position.iadd(this.velocity);
@@ -31,7 +33,7 @@ Ball.prototype.draw = function(ctx) {
   ctx.beginPath();
   ctx.arc(
       this.position.x, this.position.y,
-      this.radius, 0, Math.PI*2, false
+      this.radius, 0, Math.PI * 2, false
   );
   ctx.fill();
 };

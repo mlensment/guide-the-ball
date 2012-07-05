@@ -3,10 +3,10 @@ var Ball = function(canvas) {
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
-  this.speedLimit = 13.824;
-  this.accelerationLimit = 0.9216;
+  this.speedLimit = 15;
+  this.accelerationLimit = 1;
   this.tiltLimit = 13;
-  this.slowingFactor = 30;
+  this.slowingFactor = 20;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
   var self = this;
@@ -14,13 +14,13 @@ var Ball = function(canvas) {
     self.tiltDebug['x'] = event.gamma;
     self.tiltDebug['y'] = event.beta;
     
-    if(Math.abs(event.gamma) > self.tiltLimit) {
+    if(Math.abs(event.gamma) > self.tiltLimit || Math.abs(event.gamma / self.slowingFactor) > self.accelerationLimit) {
       self.acceleration.x = (event.gamma < 0) ? self.accelerationLimit * -1 : self.accelerationLimit;
     } else {
       self.acceleration.x = event.gamma / self.slowingFactor;
     }
 
-    if(Math.abs(event.beta) > self.tiltLimit) {
+    if(Math.abs(event.beta) > self.tiltLimit || Math.abs(event.beta / self.slowingFactor) > self.accelerationLimit) {
       self.acceleration.y = (event.beta < 0) ? self.accelerationLimit * -1 : self.accelerationLimit;
     } else {
       self.acceleration.y = event.beta / self.slowingFactor;
@@ -30,9 +30,7 @@ var Ball = function(canvas) {
 };
 
 Ball.prototype.update = function() {
-  this.acceleration.validate();
   this.velocity.iadd(this.acceleration);
-
   var speed = this.velocity.length();
   if(speed > this.speedLimit) {
     this.velocity.idiv(speed / this.speedLimit);

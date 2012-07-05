@@ -1,10 +1,10 @@
 var Ball = function(canvas) {
-  this.radius = 7.68;
+  this.radius = 15;
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 13.824;
-  this.maxAcceleration = 0.9216;
+  this.accelerationLimit = 0.9216;
   this.tiltLimit = 13;
   this.slowingFactor = 40;
   this.tiltDebug = {'x' : 0, 'y': 0};
@@ -15,13 +15,13 @@ var Ball = function(canvas) {
     self.tiltDebug['y'] = event.beta;
     
     if(Math.abs(event.gamma) > self.tiltLimit) {
-      self.acceleration.x = (event.gamma < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
+      self.acceleration.x = (event.gamma < 0) ? self.accelerationLimit * -1 : self.accelerationLimit;
     } else {
       self.acceleration.x = event.gamma / self.slowingFactor;
     }
 
     if(Math.abs(event.beta) > self.tiltLimit) {
-      self.acceleration.y = (event.beta < 0) ? self.maxAcceleration * -1 : self.maxAcceleration;
+      self.acceleration.y = (event.beta < 0) ? self.accelerationLimit * -1 : self.accelerationLimit;
     } else {
       self.acceleration.y = event.beta / self.slowingFactor;
     }

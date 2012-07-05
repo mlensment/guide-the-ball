@@ -3,7 +3,6 @@ $(document).ready(function() {
 });
 
 var Game = function() {
-  console.log($('body').height())
   $('body').prepend('<canvas id="guide-the-ball" width="' + (window.innerWidth - 12)+ '" height="' + (window.innerHeight - 12) + '"></canvas>');
   this.canvas = document.getElementById('guide-the-ball');
   this.ctx = this.canvas.getContext('2d');

@@ -4,8 +4,8 @@ var Ball = function(canvas) {
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 15;
-  this.accelerationLimit = 1;
-  this.tiltLimit = 13;
+  this.accelerationLimit = 2;
+  this.tiltLimit = 18;
   this.slowingFactor = 20;
   this.tiltDebug = {'x' : 0, 'y': 0};
 

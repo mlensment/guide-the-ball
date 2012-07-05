@@ -1,13 +1,6 @@
 var Vector = function(x, y) {
   this.x = x;
-  this.y = y;
-
-  this.sub = function(other) {
-    return new Vector(
-      this.x - other.x,
-      this.y - other.y
-    );
-  }
+  this.y = y
 
   this.isub = function(other) {
     this.x -= other.x;
@@ -31,12 +24,5 @@ var Vector = function(x, y) {
   this.zero = function() {
     this.x = 0;
     this.y = 0;
-  }
-
-  this.validate = function() {
-    if(isNaN(this.x + this.y)) {
-      this.x = 0;
-      this.y = 0;
-    }
   }
 };

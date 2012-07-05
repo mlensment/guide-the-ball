@@ -1,23 +1,23 @@
 var Wall = function(canvas) {
   this.canvas = canvas;
   this.speed = 1; //pixels per tick
-  this.pieceSize = 20; //TODO: calculate this based on canvas size
-  this.gapTiles = 20;
+  this.tileSize = 20; //TODO: calculate this based on canvas size
+  this.gapSize = 10;
+  this.gapOffsetLimit = 3;
   this.tiles = this.calculateTiles();
   this.map = this.generateBlankMap();
-  this.shiftMapRow(true);
-  this.grid = this.generateGrid(canvas);
+  this.shiftMapRow();
 };
 
 Wall.prototype.calculateTiles = function() {
   return { 
-    'x': Math.round(this.canvas.width / this.pieceSize),
-    'y': Math.round(this.canvas.height / this.pieceSize)
+    'x': Math.round(this.canvas.width / this.tileSize),
+    'y': Math.round(this.canvas.height / this.tileSize)
   };
 }
 
-Wall.prototype.generateGrid = function(canvas) {
-
+Wall.prototype.update = function() {
+  this.shiftMapRow();
 };
 
 Wall.prototype.generateBlankMap = function() {
@@ -32,32 +32,17 @@ Wall.prototype.generateBlankMap = function() {
   return map;
 };
 
-Wall.prototype.shiftMapRow = function(useWholeRow) {
+Wall.prototype.shiftMapRow = function() {
   this.map.pop();
-  this.map.unshift(this.generateMapRow(useWholeRow));
+  this.map.unshift(this.generateMapRow());
 };
 
-Wall.prototype.generateMapRow = function(useWholeRow) {
-  var useWholeRow = useWholeRow || false;
-  var gapFrom = 0;
-  var gapTo = this.tiles['x'];
-  if(!useWholeRow) {
-    for(var i in this.map[0]) {
-      if(this.map[0][i] == 0) {
-        gapFrom = (+i - this.gapTiles < 0) ? 0 : +i - this.gapTiles;
-        gapTo = +i + this.gapTiles;
-        break;
-      }
-    }
-  }
-
-  var start = Math.floor(Math.random() * (gapTo - gapFrom + 1) + gapFrom);
-  console.log('gf ' + gapFrom + ' gt ' + gapTo)
-  console.log('start ' + start)
+Wall.prototype.generateMapRow = function() {
+  var start = this.calculateGapStart();
   var newPart = [];
   for(var i = 0; i <= this.tiles['x']; i++) {
     if(i == start) {
-      for(var j = 0; j <= this.gapTiles; j++, i++) {
+      for(var j = 0; j <= this.gapSize; j++, i++) {
         newPart.push(0);
       }
     } else {
@@ -65,6 +50,32 @@ Wall.prototype.generateMapRow = function(useWholeRow) {
     }
   }
   return newPart;
+};
+
+Wall.prototype.calculateGapStart = function() {
+  var gapFrom = 0;
+  var gapTo = this.tiles['x'];
+  if(!this.firstMapRowBlank()) {
+    for(var i in this.map[0]) {
+      if(this.map[0][i] == 0) {
+        gapFrom = +i - this.gapOffsetLimit;
+        gapFrom = (gapFrom < 0) ? 0 : gapFrom;
+        gapTo = +i + this.gapOffsetLimit;
+        gapTo = (gapTo > this.tiles['x']) ? this.tiles['x'] : gapTo;
+        break;
+      }
+    }
+  }
+
+  return Math.floor(Math.random() * (gapTo - gapFrom + 1) + gapFrom);
+};
+
+Wall.prototype.firstMapRowBlank = function() {
+  for(var i in this.map[0]) {
+    if(this.map[0][i] != 0)
+      return false;
+  }
+  return true;
 };
 
 Wall.prototype.draw = function(ctx) {
@@ -76,9 +87,9 @@ Wall.prototype.draw = function(ctx) {
         ctx.fillStyle = 'rgb(255, 255, 255)';
       }
 
-      var positionX = j * this.pieceSize,
-          positionY = i * this.pieceSize;
-       ctx.fillRect(positionX, positionY, this.pieceSize, this.pieceSize);
+      var positionX = j * this.tileSize,
+          positionY = i * this.tileSize;
+       ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
     }
   }
 };

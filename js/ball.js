@@ -3,10 +3,10 @@ var Ball = function(canvas) {
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
-  this.speedLimit = 15;
-  this.accelerationLimit = 2;
+  this.speedLimit = 20;
+  this.accelerationLimit = 3;
   this.tiltLimit = 18;
-  this.slowingFactor = 20;
+  this.slowingFactor = 10;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
   var self = this;

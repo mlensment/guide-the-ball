@@ -6,7 +6,7 @@ var Ball = function(canvas) {
   this.speedLimit = 13.824;
   this.maxAcceleration = 0.9216;
   this.tiltLimit = 13;
-  this.slowingFactor = 61.44;
+  this.slowingFactor = 40;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
   var self = this;

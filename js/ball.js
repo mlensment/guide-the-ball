@@ -1,12 +1,12 @@
 var Ball = function(canvas) {
-  this.radius = 15;
+  this.radius = 13;
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 13.824;
   this.accelerationLimit = 0.9216;
   this.tiltLimit = 13;
-  this.slowingFactor = 40;
+  this.slowingFactor = 30;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
   var self = this;

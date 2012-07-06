@@ -1,7 +1,8 @@
 var Wall = function(canvas) {
   this.canvas = canvas;
-  this.speed = 1; //pixels per tick
+  this.scrollSpeed = 0.5;
   this.tileSize = 20; //TODO: calculate this based on canvas size
+  this.offset = this.tileSize * -1;
   this.gapSize = 10;
   this.gapOffsetLimit = 3;
 
@@ -18,14 +19,19 @@ Wall.prototype.calculateTiles = function() {
 }
 
 Wall.prototype.update = function() {
-  this.shiftMapRow();
+  if(this.offset == 0) {
+    this.shiftMapRow();
+    this.offset = this.tileSize * -1;
+  } else {
+    this.offset += this.scrollSpeed;
+  }
 };
 
 Wall.prototype.generateBlankMap = function() {
   var map = []
-  for(var i = 0; i <= this.tiles['x']; i++) {
+  for(var i = 0; i <= this.tiles['y']; i++) {
     var mapRow = []
-    for(var j = 0; j <= this.tiles['y']; j++) {
+    for(var j = 0; j < this.tiles['x']; j++) {
       mapRow.push(0);
     }
     map.unshift(mapRow);
@@ -90,8 +96,9 @@ Wall.prototype.draw = function(ctx) {
       }
 
       var positionX = j * this.tileSize,
-          positionY = i * this.tileSize;
-       ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
+          positionY = i * this.tileSize + this.offset;
+
+      ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
     }
   }
 };

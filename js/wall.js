@@ -4,6 +4,7 @@ var Wall = function(canvas) {
   this.tileSize = 20; //TODO: calculate this based on canvas size
   this.gapSize = 10;
   this.gapOffsetLimit = 3;
+
   this.tiles = this.calculateTiles();
   this.map = this.generateBlankMap();
   this.shiftMapRow();
@@ -54,14 +55,15 @@ Wall.prototype.generateMapRow = function() {
 
 Wall.prototype.calculateGapStart = function() {
   var gapFrom = 0;
-  var gapTo = this.tiles['x'];
+  var gapTo = this.tiles['x'] - this.gapSize;
+  this.currentGapSize = this.gapSize;
   if(!this.firstMapRowBlank()) {
     for(var i in this.map[0]) {
       if(this.map[0][i] == 0) {
         gapFrom = +i - this.gapOffsetLimit;
         gapFrom = (gapFrom < 0) ? 0 : gapFrom;
         gapTo = +i + this.gapOffsetLimit;
-        gapTo = (gapTo > this.tiles['x']) ? this.tiles['x'] : gapTo;
+        gapTo = (gapTo > this.tiles['x'] - this.gapSize) ? this.tiles['x'] - this.gapSize : gapTo;
         break;
       }
     }

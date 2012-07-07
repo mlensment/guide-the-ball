@@ -1,14 +1,15 @@
 var Ball = function(canvas) {
-  this.radius = 13;
+  this.radius = 18;
   this.position = new Vector(canvas.width / 2, canvas.height / 2);
   this.velocity = new Vector(0, 0);
   this.acceleration = new Vector(0, 0);
   this.speedLimit = 20;
-  this.accelerationLimit = 3;
+  this.accelerationLimit = 2.8;
   this.tiltLimit = 18;
-  this.slowingFactor = 10;
+  this.slowingFactor = 15;
   this.tiltDebug = {'x' : 0, 'y': 0};
 
+  this.collision = false;
   var self = this;
   window.addEventListener('deviceorientation', function(event) {
     self.tiltDebug['x'] = event.gamma;
@@ -29,6 +30,16 @@ var Ball = function(canvas) {
   }, false);
 };
 
+Ball.prototype.checkCollision = function(wall) {
+  var x = {'max': Math.floor((this.position.x + this.radius) / wall.tileSize), 'min': Math.floor((this.position.x - this.radius) / wall.tileSize)},
+      y = {'max': Math.floor((this.position.y + this.radius) / wall.tileSize), 'min': Math.floor((this.position.y - this.radius) / wall.tileSize)};
+  if(wall.map[y['max']][x['max']] == 1 || wall.map[y['max']][x['min']] == 1 || wall.map[y['min']][x['max']] == 1 || wall.map[y['min']][x['min']] == 1) {
+    this.collision = true;
+  } else {
+    this.collision = false;
+  }
+};
+
 Ball.prototype.update = function() {
   this.velocity.iadd(this.acceleration);
   var speed = this.velocity.length();
@@ -41,6 +52,8 @@ Ball.prototype.update = function() {
 };
 
 Ball.prototype.draw = function(ctx) {
+  if(this.collision)
+    ctx.fillStyle = 'rgb(0, 255, 0)';
   ctx.beginPath();
   ctx.arc(
       this.position.x, this.position.y,

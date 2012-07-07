@@ -18,15 +18,14 @@ Game.prototype.tick = function() {
 };
 
 Game.prototype.update = function() {
+  
   this.wall.update();
   this.ball.update();
+  this.ball.checkCollision(this.wall);
 };
 
 Game.prototype.draw = function() {
   this.wall.draw(this.ctx);
-  //this.ctx.globalCompositeOperation = 'source-in';
-  //this.ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-  //this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  //this.ctx.globalCompositeOperation = 'lighter';
-  //this.ball.draw(this.ctx);
+  this.ctx.fillStyle = 'rgb(255, 0, 0)';
+  this.ball.draw(this.ctx);
 };

@@ -1,9 +1,9 @@
 var Wall = function(canvas) {
   this.canvas = canvas;
-  this.scrollSpeed = 0.5;
-  this.tileSize = 20; //TODO: calculate this based on canvas size
+  this.scrollSpeed = 3;
+  this.tileSize = 50; //TODO: calculate this based on canvas size
   this.offset = this.tileSize * -1;
-  this.gapSize = 10;
+  this.gapSize = 7;
   this.gapOffsetLimit = 3;
 
   this.tiles = this.calculateTiles();
@@ -19,7 +19,7 @@ Wall.prototype.calculateTiles = function() {
 }
 
 Wall.prototype.update = function() {
-  if(this.offset == 0) {
+  if(this.offset >= 0) {
     this.shiftMapRow();
     this.offset = this.tileSize * -1;
   } else {

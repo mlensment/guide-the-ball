@@ -13,10 +13,10 @@ var Wall = function(canvas) {
 
 Wall.prototype.calculateTiles = function() {
   return { 
-    'x': Math.round(this.canvas.width / this.tileSize),
-    'y': Math.round(this.canvas.height / this.tileSize)
+    x: Math.round(this.canvas.width / this.tileSize),
+    y: Math.round(this.canvas.height / this.tileSize)
   };
-}
+};
 
 Wall.prototype.update = function() {
   if(this.offset >= 0) {
@@ -29,10 +29,10 @@ Wall.prototype.update = function() {
 
 Wall.prototype.generateBlankMap = function() {
   var map = []
-  for(var i = 0; i <= this.tiles['y']; i++) {
+  for(var i = 0; i <= this.tiles.y; i++) {
     var mapRow = []
-    for(var j = 0; j < this.tiles['x']; j++) {
-      mapRow.push(0);
+    for(var j = 0; j < this.tiles.x; j++) {
+      mapRow.push(gapTile);
     }
     map.unshift(mapRow);
   }
@@ -47,13 +47,13 @@ Wall.prototype.shiftMapRow = function() {
 Wall.prototype.generateMapRow = function() {
   var start = this.calculateGapStart();
   var newPart = [];
-  for(var i = 0; i <= this.tiles['x']; i++) {
+  for(var i = 0; i <= this.tiles.x; i++) {
     if(i == start) {
       for(var j = 0; j <= this.gapSize; j++, i++) {
-        newPart.push(0);
+        newPart.push(gapTile);
       }
     } else {
-      newPart.push(1);
+      newPart.push(barrierTile);
     }
   }
   return newPart;
@@ -61,15 +61,15 @@ Wall.prototype.generateMapRow = function() {
 
 Wall.prototype.calculateGapStart = function() {
   var gapFrom = 0;
-  var gapTo = this.tiles['x'] - this.gapSize;
+  var gapTo = this.tiles.x - this.gapSize;
   this.currentGapSize = this.gapSize;
   if(!this.firstMapRowBlank()) {
     for(var i in this.map[0]) {
-      if(this.map[0][i] == 0) {
+      if(this.map[0][i] == gapTile) {
         gapFrom = +i - this.gapOffsetLimit;
         gapFrom = (gapFrom < 0) ? 0 : gapFrom;
         gapTo = +i + this.gapOffsetLimit;
-        gapTo = (gapTo > this.tiles['x'] - this.gapSize) ? this.tiles['x'] - this.gapSize : gapTo;
+        gapTo = (gapTo > this.tiles.x - this.gapSize) ? this.tiles.x - this.gapSize : gapTo;
         break;
       }
     }
@@ -89,16 +89,21 @@ Wall.prototype.firstMapRowBlank = function() {
 Wall.prototype.draw = function(ctx) {
   for(var i in this.map) {
     for(var j in this.map[i]) {
-      if(this.map[i][j] == 1) {
-        ctx.fillStyle = 'rgb(0, 0, 0)';
-      } else {
-        ctx.fillStyle = 'rgb(255, 255, 255)';
-      }
-
       var positionX = j * this.tileSize,
           positionY = i * this.tileSize + this.offset;
 
-      ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
+      if(this.map[i][j].hasOwnProperty('imgId')) {
+
+        
+        ctx.drawImage(document.getElementById(this.map[i][j].imgId), positionX, positionY, this.tileSize, this.tileSize)
+      } else {
+        ctx.fillStyle = this.map[i][j].fillStyle;
+        ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
+      }
+      // img.onload = function() {
+      //   ctx.fillRect(positionX, positionY, self.tileSize, self.tileSize);
+      // };
+      
     }
   }
 };

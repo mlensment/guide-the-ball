@@ -3,7 +3,8 @@ $(document).ready(function() {
 });
 
 var Game = function() {
-  $('body').prepend('<canvas id="guide-the-ball" width="' + (window.innerWidth - 12)+ '" height="' + (window.innerHeight - 12) + '"></canvas>');
+  $('body').prepend('<canvas id="guide-the-ball" width="' + window.innerWidth + '" height="' + window.innerHeight + '"></canvas>');
+  $('#debug').append(window.innerWidth +' x '+ window.innerHeight)
   this.canvas = document.getElementById('guide-the-ball');
   this.ctx = this.canvas.getContext('2d');
   this.ball = new Ball(this.canvas);
@@ -20,11 +21,16 @@ Game.prototype.tick = function() {
 Game.prototype.update = function() {
   this.wall.update();
   this.ball.update();
-  this.ball.checkCollision(this.wall);
+  this.ball.detectCollision(this.wall);
 };
 
 Game.prototype.draw = function() {
   this.wall.draw(this.ctx);
   this.ctx.fillStyle = 'rgb(255, 0, 0)';
   this.ball.draw(this.ctx);
+};
+
+//Configuration for 800x
+var config = {
+  //
 };

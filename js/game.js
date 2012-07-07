@@ -8,7 +8,7 @@ var Game = function() {
   this.canvas = document.getElementById('guide-the-ball');
   this.ctx = this.canvas.getContext('2d');
   this.ball = new Ball(this.canvas);
-  this.wall = new Wall(this.canvas);
+  this.ground = new Ground(this.canvas);
   var self = this;
   this.running = setInterval(function(){self.tick()}, 50);
 };
@@ -19,13 +19,13 @@ Game.prototype.tick = function() {
 };
 
 Game.prototype.update = function() {
-  this.wall.update();
+  this.ground.update();
   this.ball.update();
-  this.ball.detectCollision(this.wall);
+  this.ball.detectCollision(this.ground);
 };
 
 Game.prototype.draw = function() {
-  this.wall.draw(this.ctx);
+  this.ground.draw(this.ctx);
   this.ctx.fillStyle = 'rgb(255, 0, 0)';
   this.ball.draw(this.ctx);
 };

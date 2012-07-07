@@ -18,7 +18,6 @@ Game.prototype.tick = function() {
 };
 
 Game.prototype.update = function() {
-  
   this.wall.update();
   this.ball.update();
   this.ball.checkCollision(this.wall);

@@ -1,6 +1,6 @@
 var Player = function(canvas) {
   console.log('new player')
-  Ball.prototype.constructor.call(this, canvas);
+  Ball.call(this, canvas);
   this.bindListeners();
 };
 
@@ -14,7 +14,4 @@ Player.prototype.bindListeners = function() {
   }.bind(this), false);
 }
 
-var proxy = function () {};
-proxy.prototype = Ball.prototype;
-Player.prototype = new proxy();
-Player.prototype.constructor = Player;
+Player.prototype = Object.create(Ball.prototype);

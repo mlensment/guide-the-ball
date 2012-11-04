@@ -7,10 +7,10 @@ var Game = function() {
   $('#debug').append(window.innerWidth +' x '+ window.innerHeight)
   this.canvas = document.getElementById('guide-the-ball');
   this.ctx = this.canvas.getContext('2d');
-  this.ball = new Ball(this.canvas);
+  this.player = new Player(this.canvas);
   this.ground = new Ground(this.canvas);
   var self = this;
-  this.running = setInterval(function(){self.tick()}, 50);
+  this.running = setInterval(function(){self.tick()}, 30);
 };
 
 Game.prototype.tick = function() {
@@ -19,15 +19,14 @@ Game.prototype.tick = function() {
 };
 
 Game.prototype.update = function() {
-  this.ground.update();
-  this.ball.update();
-  this.ball.detectCollision(this.ground);
+  this.player.update();
+  this.player.detectCollision(this.ground);
 };
 
 Game.prototype.draw = function() {
-  this.ground.draw(this.ctx);
+  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.fillStyle = 'rgb(255, 0, 0)';
-  this.ball.draw(this.ctx);
+  this.player.draw(this.ctx);
 };
 
 //Configuration for 800x

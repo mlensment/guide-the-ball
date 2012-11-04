@@ -92,14 +92,14 @@ Ground.prototype.draw = function(ctx) {
       var positionX = j * this.tileSize,
           positionY = i * this.tileSize + this.offset;
 
-      if(this.map[i][j].hasOwnProperty('imgId')) {
-        var img = document.getElementById(this.map[i][j].imgId + this.tileOrientation(j, i));
+      // if(this.map[i][j].hasOwnProperty('imgId')) {
+      //   var img = document.getElementById(this.map[i][j].imgId + this.tileOrientation(j, i));
         
-        ctx.drawImage(img, positionX, positionY, this.tileSize, this.tileSize)
-      } else {
+      //   ctx.drawImage(img, positionX, positionY, this.tileSize, this.tileSize)
+      // } else {
         ctx.fillStyle = this.map[i][j].fillStyle;
         ctx.fillRect(positionX, positionY, this.tileSize, this.tileSize);
-      }
+      // }
     }
   }
 };

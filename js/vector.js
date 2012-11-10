@@ -26,3 +26,9 @@ var Vector = function(x, y) {
     this.y = 0;
   }
 };
+
+Vector.distance = function(a, b) {
+  var x = a.x - b.x;
+  var y = a.y - b.y;
+  return Math.sqrt(x * x + y * y);
+};

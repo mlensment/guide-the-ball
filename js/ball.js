@@ -9,18 +9,20 @@ var Ball = function(params) {
   this.tiltLimit = params.tiltLimit || 18;
   this.tiltDebug = {x : 0, y: 0};
   this.radiusDelta = params.radiusDelta || 0;
-  this.collision = false;
+  this.collidedWith = null;
 };
 
-Ball.prototype.detectCollision = function(env) {
-  for(var i = 0; i < env.balls.length; i++) {
-    var envBall = env.balls[i];
+Ball.prototype.detectCollision = function() {
+  for(var i = 0; i <= Game.environment.balls.length; i++) {
+    var envBall = Game.environment.balls[i] || Game.player;
+   if(envBall == this) continue;
+
     var distance = Vector.distance(this.position, envBall.position);
     distance = distance - this.radius - envBall.radius;
     if(distance <= 0) {
-      this.collision = true;
+      this.collidedWith = envBall;
     } else {
-      this.collision = false;
+      this.collidedWith = null;
     }
   }
 };
@@ -32,19 +34,24 @@ Ball.prototype.changeRadius = function() {
 };
 
 Ball.prototype.update = function() {
+  this.detectCollision();
+  this.velocity.iadd(this.acceleration);
   var speed = this.velocity.length();
   if(speed > this.speedLimit) {
     this.velocity.idiv(speed / this.speedLimit);
   }
-  this.position.iadd(this.velocity);  
+  this.position.iadd(this.velocity);
   this.debug();
-
+  this.acceleration.zero();
   this.changeRadius();
 };
 
 Ball.prototype.draw = function(ctx) {
-  if(this.collision)
+  if(this.collidedWith) {
     ctx.fillStyle = 'rgb(0, 255, 0)';
+  } else { 
+    ctx.fillStyle = 'rgb(255, 0, 0)';
+  }
   ctx.beginPath();
   ctx.arc(
       this.position.x, this.position.y,
